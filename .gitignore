@@ -1,0 +1,10 @@
+#追跡解除
+/setting.json
+
+/cogs/central/__pycache__/
+/cogs/main/__pycache__/
+/cogs/common/__pycache__/
+
+/cogs/central/
+/cogs/common/
+/cogs/dev/
