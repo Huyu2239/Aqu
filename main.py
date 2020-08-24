@@ -16,6 +16,7 @@ with open('setting.json', mode='r', encoding='utf-8') as sett:
 class MyBot(commands.Bot):
     def __init__(self, command_prefix):
         super().__init__(command_prefix)
+        self.remove_command('help')
 
         path="./cogs"
         for cog in os.listdir(path+"/central"):
@@ -36,12 +37,12 @@ class MyBot(commands.Bot):
                     self.load_extension(f"cogs.common.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.common.{cog[:-3]}")
-        await self.change_presence(activity=discord.Game(name=f"{prefix}about"))
 
     async def on_ready(self):
         print('-----')
         print('起動')
         print('-----')
+        await self.change_presence(activity=discord.Game(name=f"{prefix}about"))
 
     async def on_command_error(self, ctx, error1):
         orig_error = getattr(error1, "original", error1)

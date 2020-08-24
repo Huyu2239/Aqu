@@ -22,6 +22,7 @@ def default_buttons():
         last_page()
     )
 buttons = default_buttons()
+timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
 
 class Help(commands.Cog):
     def __init__(self, bot):
@@ -69,7 +70,6 @@ class Help(commands.Cog):
 #about       
     @commands.group()
     async def about(self, ctx):
-        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
         if ctx.invoked_subcommand is None:
             abouts = [
                 (discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp,color=discord.Color.blue())),
