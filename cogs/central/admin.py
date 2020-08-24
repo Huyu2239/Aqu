@@ -22,20 +22,33 @@ class Admin(commands.Cog):
             return await ctx.send('Admin専用コマンドです')
         await ctx.send("更新中")
         if cog_name == "all":
+
+            for cog in os.listdir(path+"/central"):
+                if cog.endswith(".py"):
+                    if cog == path+"/central/admin.py":
+                        continue
+                    try:
+                        self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
+                    except commands.ExtensionNotLoaded:
+                        self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+
             for cog in os.listdir(path+"/main"):
                 if cog.endswith(".py"):
                     try:
                         self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
                         self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+
             for cog in os.listdir(path+"/common"):
                 if cog.endswith(".py"):
                     try:
                         self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
-                        continue
+                        self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+
             await ctx.send("更新しました")
             return
+
         try:
             self.bot.reload_extension(f'cogs.common.{cog_name}')
         except commands.ExtensionNotFound:
@@ -52,12 +65,14 @@ class Admin(commands.Cog):
         if not ctx.author.id in admin_list:
             return await ctx.send('Admin専用コマンドです')
         await ctx.send("更新中")
+
         for cog in os.listdir(path+"/dev"):
             if cog.endswith(".py"):
                 try:
                     self.bot.reload_extension(f"cogs.dev.{cog[:-3]}")
                 except commands.ExtensionNotLoaded:
                     self.bot.load_extension(f"cogs.dev.{cog[:-3]}")
+
         await ctx.send("更新しました")
         return
 
@@ -69,20 +84,21 @@ class Admin(commands.Cog):
         for cog in os.listdir(path+"/central"):
             if cog.endswith(".py"):
                 await ctx.send(cog)
-        await ctx.send('/dev')
-        for cog in os.listdir(path+"/dev"):
-            if cog.endswith(".py"):
-                await ctx.send(cog)
         '''
         await ctx.send('/main')
         for cog in os.listdir(path+"/main"):
             if cog.endswith(".py"):
                 await ctx.send(cog)
+                
         await ctx.send('/common')
         for cog in os.listdir(path+"/common"):
             if cog.endswith(".py"):
                 await ctx.send(cog)
         '''
+        await ctx.send('/dev')
+        for cog in os.listdir(path+"/dev"):
+            if cog.endswith(".py"):
+                await ctx.send(cog)
         await ctx.send('end')
 def setup(bot):
     bot.add_cog(Admin(bot))

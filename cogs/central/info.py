@@ -22,7 +22,6 @@ def default_buttons():
         last_page()
     )
 buttons = default_buttons()
-timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
 
 class Help(commands.Cog):
     def __init__(self, bot):
@@ -70,6 +69,7 @@ class Help(commands.Cog):
 #about       
     @commands.group()
     async def about(self, ctx):
+        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
         if ctx.invoked_subcommand is None:
             abouts = [
                 (discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp,color=discord.Color.blue())),
@@ -96,6 +96,7 @@ class Help(commands.Cog):
 
     @about.command()
     async def en(self, ctx):
+        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
         en = discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp, color=0x009193)
         en.set_thumbnail(url=self.bot.user.avatar_url)
         en.add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
@@ -106,6 +107,7 @@ class Help(commands.Cog):
 
     @about.command()
     async def jp(self, ctx):
+        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
         jp = discord.Embed(title="このBOTの概要:", description=f">>> ```このサーバー専用の運営BOTです```", timestamp=timestamp, color=0x009193)
         jp.set_thumbnail(url=self.bot.user.avatar_url)
         jp.add_field(name="総ユーザー数", value=f"`{len(set(self.bot.get_all_members()))}`")
