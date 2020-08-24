@@ -1,0 +1,2 @@
+# Aqu
+‚±‚ÌBot‚Í‚Æ‚ ‚éŽI‚Ì‰^‰cBOT‚Å‚·B
