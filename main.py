@@ -18,22 +18,18 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix)
 
         path="./cogs"
-        #path="/home/huyu/discordbot/Aqu/cogs"
         for cog in os.listdir(path+"/central"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.central.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.central.{cog[:-3]}")
-        '''
         for cog in os.listdir(path+"/main"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.main.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.main.{cog[:-3]}")
-        '''
-        '''
         for cog in os.listdir(path+"/common"):
             if cog.endswith(".py"):
                 try:
@@ -41,7 +37,7 @@ class MyBot(commands.Bot):
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.common.{cog[:-3]}")
         await self.change_presence(activity=discord.Game(name=f"{prefix}about"))
-        '''
+
     async def on_ready(self):
         print('-----')
         print('起動')
@@ -54,5 +50,5 @@ class MyBot(commands.Bot):
         await self.get_channel(logch_id).send(error_msg)
 
 if __name__ == '__main__':
-    bot = MyBot(command_prefix='!') 
-    bot.run() 
+    bot = MyBot(command_prefix=prefix) 
+    bot.run(token) 
