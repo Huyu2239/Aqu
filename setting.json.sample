@@ -1,10 +1,12 @@
 {
     "bot_status":{
-        "token": "HOGEHOGE",
+        "token": "HOGE",
         "prefix": "aq?",
-        "log_ch_id": 123456789
-    },
+        "log_ch_id": 1111111111
+        },
+
     "staff":{
-        "owner": 123456789
+        "owner": 2222222222,
+        "admin":[333333333,4444444444,5555555555]
     }
 }
