@@ -3,7 +3,7 @@ from discord.ext import commands
 import json
 import asyncio 
 import traceback 
-from os import environ
+import os
 
 with open('setting.json', mode='r', encoding='utf-8') as sett:
     set_json = sett.read()
@@ -52,5 +52,4 @@ class MyBot(commands.Bot):
 
 if __name__ == '__main__':
     bot = MyBot(command_prefix=prefix) 
-    #bot.run(token) 
-    bot.run(environ['BOT_TOKEN'])
+    bot.run(token) 
