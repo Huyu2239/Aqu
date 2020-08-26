@@ -3,6 +3,7 @@ from discord.ext import commands
 import json
 import traceback
 import io
+import textwrap
 
 with open('setting.json', mode='r', encoding='utf-8') as sett:
     set_json = sett.read()
@@ -44,7 +45,7 @@ class Eval(commands.Cog):
 
         func = env['func']
         try:
-            with redirect_stdout(stdout):
+            #with redirect_stdout(stdout):
                 ret = await func()
         except Exception as e:
             value = stdout.getvalue()

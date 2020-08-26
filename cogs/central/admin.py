@@ -16,8 +16,8 @@ path="./cogs"
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    @commands.command(name="reload")
-    async def _reload(self, ctx, cog_name):
+    @commands.command()
+    async def reload(self, ctx, cog_name):
         if not ctx.author.id in admin_list:
             return await ctx.send('Admin専用コマンドです')
         await ctx.send("更新中")
@@ -31,14 +31,12 @@ class Admin(commands.Cog):
                         self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
                         self.bot.load_extension(f"cogs.common.{cog[:-3]}")
-
             for cog in os.listdir(path+"/main"):
                 if cog.endswith(".py"):
                     try:
                         self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
                         self.bot.load_extension(f"cogs.common.{cog[:-3]}")
-
             for cog in os.listdir(path+"/common"):
                 if cog.endswith(".py"):
                     try:
