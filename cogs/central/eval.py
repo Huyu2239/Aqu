@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
+import asyncio
 import json
 import traceback
 import io
+import subprocess
 import textwrap
 from contextlib import redirect_stdout
 
@@ -16,8 +18,32 @@ with open('setting.json', mode='r', encoding='utf-8') as sett:
 class Eval(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    @commands.command(pass_context=True, hidden=True, name='eval')
-    async def _eval(self, ctx, *, body: str):
+        self._last_result = None
+        self.sessions = set()
+
+    async def run_process(self, command):
+        try:
+            process = await asyncio.create_subprocess_shell(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = await process.communicate()
+        except NotImplementedError:
+            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = await self.bot.loop.run_in_executor(None, process.communicate)
+
+        return [output.decode() for output in result]
+
+    def cleanup_code(self, content):
+        """Automatically removes code blocks from the code."""
+        # remove ```py\n```
+        if content.startswith('```') and content.endswith('```'):
+            return '\n'.join(content.split('\n')[1:-1])
+
+        # remove `foo`
+        return content.strip('` \n')
+
+    async def cog_check(self, ctx):
+        return await self.bot.is_owner(ctx.author)
+    @commands.command(pass_context=True, hidden=True)
+    async def eval(self, ctx, *, body: str):
         if not ctx.author.id in admin_list:
             return await ctx.send('Admin専用コマンドです')
         """Evaluates a code"""

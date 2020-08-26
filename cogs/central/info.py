@@ -15,10 +15,8 @@ def default_buttons():
 
     return (
         first_page(),
-        back_10_pages(),
         previous_page(),
         next_page(),
-        forward_10_pages(),
         last_page()
     )
 buttons = default_buttons()
@@ -27,11 +25,17 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 #help
+
     @commands.group()
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send('Please wait...')
             return
+    @help.command()
+    async def about(self, ctx, lang=None):
+        if lang==None:
+            await ctx.send('aq?about')
+
     @help.command()
     async def en(self, ctx):
         await ctx.send('Please wait...')

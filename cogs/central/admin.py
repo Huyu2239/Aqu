@@ -22,21 +22,20 @@ class Admin(commands.Cog):
             return await ctx.send('Admin専用コマンドです')
         await ctx.send("更新中")
         if cog_name == "all":
-
             for cog in os.listdir(path+"/central"):
                 if cog.endswith(".py"):
-                    if cog == path+"/central/admin.py":
+                    if cog == "admin.py":
                         continue
                     try:
-                        self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
+                        self.bot.reload_extension(f"cogs.central.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
-                        self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+                        self.bot.load_extension(f"cogs.central.{cog[:-3]}")
             for cog in os.listdir(path+"/main"):
                 if cog.endswith(".py"):
                     try:
-                        self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
+                        self.bot.reload_extension(f"cogs.main.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
-                        self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+                        self.bot.load_extension(f"cogs.main.{cog[:-3]}")
             for cog in os.listdir(path+"/common"):
                 if cog.endswith(".py"):
                     try:
@@ -46,7 +45,6 @@ class Admin(commands.Cog):
 
             await ctx.send("更新しました")
             return
-
         try:
             self.bot.reload_extension(f'cogs.common.{cog_name}')
         except commands.ExtensionNotFound:
@@ -82,7 +80,6 @@ class Admin(commands.Cog):
         for cog in os.listdir(path+"/central"):
             if cog.endswith(".py"):
                 await ctx.send(cog)
-        '''
         await ctx.send('/main')
         for cog in os.listdir(path+"/main"):
             if cog.endswith(".py"):
@@ -92,7 +89,6 @@ class Admin(commands.Cog):
         for cog in os.listdir(path+"/common"):
             if cog.endswith(".py"):
                 await ctx.send(cog)
-        '''
         await ctx.send('/dev')
         for cog in os.listdir(path+"/dev"):
             if cog.endswith(".py"):
