@@ -18,6 +18,7 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix)
         self.remove_command('help')
 
+    async def on_ready(self):
         path="./cogs"
         for cog in os.listdir(path+"/central"):
             if cog.endswith(".py"):
@@ -39,7 +40,6 @@ class MyBot(commands.Bot):
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.common.{cog[:-3]}")
         '''
-    async def on_ready(self):
         print('-----')
         print('起動')
         print('-----')
