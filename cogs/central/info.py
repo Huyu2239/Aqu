@@ -70,11 +70,11 @@ class Help(commands.Cog):
         nav.start()
         await ctx.send(nav)
 
-#about       
+    #about       
     @commands.group()
     async def about(self, ctx):
         if ctx.invoked_subcommand is None:
-            abouts=en=self.bot.get_cog('Contents').about
+            abouts=self.bot.get_cog('Contents').about
             nav = libneko.pag.navigator.EmbedNavigator(ctx, abouts, buttons=default_buttons(), timeout=60)
             nav.start()
             await ctx.send(nav)
