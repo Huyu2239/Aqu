@@ -25,7 +25,7 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 #help
-
+#help lang    
     @commands.group()
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
@@ -46,7 +46,7 @@ class Help(commands.Cog):
                 (discord.Embed(title="スレッド機能",color=discord.Color.blue())),
                 (discord.Embed(title="レベル機能",color=discord.Color.blue())),
                 (discord.Embed(title="その他機能",color=discord.Color.blue()))
-                ]
+        ]
         #central
         jp[0].add_field(name="aq?help", value="コマンド一覧表示", inline=False)
         jp[0].add_field(name="aq?about", value="このBOTの概要を表示します。。", inline=False)
@@ -73,26 +73,8 @@ class Help(commands.Cog):
 #about       
     @commands.group()
     async def about(self, ctx):
-        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
         if ctx.invoked_subcommand is None:
-            abouts = [
-                (discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp,color=discord.Color.blue())),
-                (discord.Embed(title="このBOTの概要:", description=f">>> ```このサーバー専用の運営BOTです```", timestamp=timestamp, color=discord.Color.blue()))
-                    ]
-            #en
-            abouts[0].set_thumbnail(url=self.bot.user.avatar_url)
-            abouts[0].add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
-            abouts[0].add_field(name="dev_lang", value="`discord.py`")
-            abouts[0].add_field(name="Base machine", value="`TeraServer`")
-            abouts[0].set_footer(text="This bot made on")
-
-            #jp
-            abouts[1].set_thumbnail(url=self.bot.user.avatar_url)
-            abouts[1].add_field(name="総ユーザー数", value=f"`{len(set(self.bot.get_all_members()))}`")
-            abouts[1].add_field(name="開発言語", value="`discord.py`")
-            abouts[1].add_field(name="動作環境", value="`TeraServer`")
-            abouts[1].set_footer(text="このBOTの作成日")
-
+            abouts=en=self.bot.get_cog('Contents').about
             nav = libneko.pag.navigator.EmbedNavigator(ctx, abouts, buttons=default_buttons(), timeout=60)
             nav.start()
             await ctx.send(nav)
@@ -100,24 +82,12 @@ class Help(commands.Cog):
 
     @about.command()
     async def en(self, ctx):
-        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
-        en = discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp, color=0x009193)
-        en.set_thumbnail(url=self.bot.user.avatar_url)
-        en.add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
-        en.add_field(name="dev_lang", value="`discord.py`")
-        en.add_field(name="Base machine", value="`TeraServer`")
-        en.set_footer(text="This bot made on")
+        en=self.bot.get_cog('Contents').about[0]
         await ctx.send(embed=en)
 
     @about.command()
     async def jp(self, ctx):
-        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
-        jp = discord.Embed(title="このBOTの概要:", description=f">>> ```このサーバー専用の運営BOTです```", timestamp=timestamp, color=0x009193)
-        jp.set_thumbnail(url=self.bot.user.avatar_url)
-        jp.add_field(name="総ユーザー数", value=f"`{len(set(self.bot.get_all_members()))}`")
-        jp.add_field(name="開発言語", value="`discord.py`")
-        jp.add_field(name="動作環境", value="`TeraServer`")
-        jp.set_footer(text="このBOTの作成日")
+        jp=self.bot.get_cog('Contents').about[1]
         await ctx.send(embed=jp)
 
 

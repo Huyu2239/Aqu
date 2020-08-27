@@ -25,6 +25,7 @@ class MyBot(commands.Bot):
                     self.load_extension(f"cogs.central.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.central.{cog[:-3]}")
+        '''
         for cog in os.listdir(path+"/main"):
             if cog.endswith(".py"):
                 try:
@@ -37,7 +38,7 @@ class MyBot(commands.Bot):
                     self.load_extension(f"cogs.common.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
                     self.load_extension(f"cogs.common.{cog[:-3]}")
-
+        '''
     async def on_ready(self):
         print('-----')
         print('起動')
