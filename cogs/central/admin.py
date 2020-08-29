@@ -30,6 +30,7 @@ class Admin(commands.Cog):
                         self.bot.reload_extension(f"cogs.central.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
                         self.bot.load_extension(f"cogs.central.{cog[:-3]}")
+            '''
             for cog in os.listdir(path+"/main"):
                 if cog.endswith(".py"):
                     try:
@@ -42,6 +43,7 @@ class Admin(commands.Cog):
                         self.bot.reload_extension(f"cogs.common.{cog[:-3]}")
                     except commands.ExtensionNotLoaded:
                         self.bot.load_extension(f"cogs.common.{cog[:-3]}")
+            '''
 
             await ctx.send("更新しました")
             return

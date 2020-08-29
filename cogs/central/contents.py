@@ -2,40 +2,40 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 import numpy as np
+import asyncio
 class Contents(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 #about
-        timestamp = datetime.utcfromtimestamp(20200810)
-        about = [
+        timestamp = datetime.utcfromtimestamp(int(self.bot.user.created_at.timestamp()))
+        self.about = [
             (discord.Embed(title="ABOUT THIS BOT:", description=f">>> ```This is an Management BOT\nmade for this server```", timestamp=timestamp,color=discord.Color.blue())),
             (discord.Embed(title="このBOTの概要:", description=f">>> ```このサーバー専用の運営BOTです```", timestamp=timestamp, color=discord.Color.blue()))
         ]
     #en
-        about[0].set_thumbnail(url=self.bot.user.avatar_url)
-        about[0].add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
-        about[0].add_field(name="dev_lang", value="`discord.py`")
-        about[0].add_field(name="Base machine", value="`TeraServer`")
-        about[0].set_footer(text="This bot made on")
+        self.about[0].set_thumbnail(url=self.bot.user.avatar_url)
+        self.about[0].add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
+        self.about[0].add_field(name="dev_lang", value="`discord.py`")
+        self.about[0].add_field(name="Base machine", value="`TeraServer`")
+        self.about[0].set_footer(text="This bot made on")
 
     #jp
-        about[1].set_thumbnail(url=self.bot.user.avatar_url)
-        about[1].add_field(name="総ユーザー数", value=f"`{len(set(self.bot.get_all_members()))}`")
-        about[1].add_field(name="開発言語", value="`discord.py`")
-        about[1].add_field(name="動作環境", value="`TeraServer`")
-        about[1].set_footer(text="このBOTの作成日")
-        self.about = about
+        self.about[1].set_thumbnail(url=self.bot.user.avatar_url)
+        self.about[1].add_field(name="総ユーザー数", value=f"`{len(set(self.bot.get_all_members()))}`")
+        self.about[1].add_field(name="開発言語", value="`discord.py`")
+        self.about[1].add_field(name="動作環境", value="`TeraServer`")
+        self.about[1].set_footer(text="このBOTの作成日")
 
 #help
-        self.help = [
-            [
-                [
+        self.help = [#help all
+            [#help
+                [#help en
                     (discord.Embed(title="main",color=discord.Color.blue())),
                     (discord.Embed(title="スレッド機能",color=discord.Color.blue())),
                     (discord.Embed(title="レベル機能",color=discord.Color.blue())),
                     (discord.Embed(title="etc",color=discord.Color.blue()))
                 ],
-                [
+                [#help jp
                     (discord.Embed(title="基本機能",color=discord.Color.blue())),
                     (discord.Embed(title="スレッド機能",color=discord.Color.blue())),
                     (discord.Embed(title="レベル機能",color=discord.Color.blue())),
@@ -43,7 +43,7 @@ class Contents(commands.Cog):
                 ]
             ],
 
-            [
+            [#help about
                 (discord.Embed(title="English",dcolor=discord.Color.blue())),
                 (discord.Embed(title="日本語",color=discord.Color.blue()))
             ]
@@ -75,5 +75,19 @@ class Contents(commands.Cog):
     #about
         self.help[1][0].add_field(name="about", value="show infomation of this bot")
         self.help[1][1].add_field(name="about", value="ボットの情報を表示します")
+
+        self.lang = discord.Embed(title="languages",color=discord.Color.blue())
+#reactions
+        self.langs_list = [
+            "\N{REGIONAL INDICATOR SYMBOL LETTER U}\N{REGIONAL INDICATOR SYMBOL LETTER S}",#英語
+            "\N{REGIONAL INDICATOR SYMBOL LETTER J}\N{REGIONAL INDICATOR SYMBOL LETTER P}"#日本語
+        ]
+        
+        self.react_list = [
+            "\N{BLACK LEFT-POINTING TRIANGLE}",  # 戻る
+            "\N{BLACK RIGHT-POINTING TRIANGLE}",  # 進む
+            "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"#終了
+        ]
+
 def setup(bot):
     bot.add_cog(Contents(bot))

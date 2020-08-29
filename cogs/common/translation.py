@@ -10,6 +10,8 @@ class Translation(commands.Cog):
     async def on_raw_reaction_add(self,payload):
         channel = self.bot.get_channel(payload.channel_id)
         reacted_message = await channel.fetch_message(payload.message_id)
+        if reacted_message.embeds:
+            return
         if str(payload.emoji) == '\N{REGIONAL INDICATOR SYMBOL LETTER J}\N{REGIONAL INDICATOR SYMBOL LETTER P}':
             translator = Translator()
             trans_ja = translator.translate(reacted_message.content, dest='ja')

@@ -54,4 +54,5 @@ class MyBot(commands.Bot):
 
 if __name__ == '__main__':
     bot = MyBot(command_prefix=prefix) 
+    bot.remove_command('help')
     bot.run(token) 
