@@ -141,7 +141,7 @@ class Help(commands.Cog):
         if langs == None:
             abouts = self.bot.get_cog('Contents').help[1][0]
             msg = await ctx.send(embed=abouts)
-            await commands_pages(ctx, msg, 1)
+            await self.commands_pages(ctx, msg, 1)
         #/help commands langsの時はその言語のembed
         else:
             if langs == 'en':

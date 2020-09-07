@@ -44,8 +44,8 @@ class Contents(commands.Cog):
             ],
 
             [#help about
-                (discord.Embed(title="English",dcolor=discord.Color.blue())),
-                (discord.Embed(title="日本語",color=discord.Color.blue()))
+                (discord.Embed(title="about",description='show infomation of this bot',color=discord.Color.blue())),
+                (discord.Embed(title="概要",description='ボットの情報を表示します',color=discord.Color.blue()))
             ]
         ]
     #help en
@@ -72,9 +72,7 @@ class Contents(commands.Cog):
         jp[3].add_field(name="翻訳機能", value="翻訳したいメッセージに国旗のリアクションを付けると、その国の言語に翻訳した文章を返信します", inline=False)
         jp[3].add_field(name="ロールパネル", value="自分でロールを取得できます。\n詳しくは<#>まで", inline=False)
 
-    #about
-        self.help[1][0].add_field(name="about", value="show infomation of this bot")
-        self.help[1][1].add_field(name="about", value="ボットの情報を表示します")
+    #commands langs
 
         self.lang = discord.Embed(title="languages",color=discord.Color.blue())
 
