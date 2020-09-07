@@ -88,6 +88,8 @@ class Contents(commands.Cog):
             "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"#終了
         ]
 
+        self.number_list = [
+        ]
 #panels
         self.role_panels = [
             (discord.Embed(title="role panel", description="",color=discord.Color.blue())),
