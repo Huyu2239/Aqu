@@ -56,7 +56,7 @@ class Contents(commands.Cog):
         #central
         jp[0].add_field(name="aq?help", value="コマンド一覧表示", inline=False)
         jp[0].add_field(name="aq?about", value="このBOTの概要を表示します。。", inline=False)
-        jp[0].add_field(name="~~aq?help `<コマンド>`~~", value="~~`<コマンド>`で指定したコマンドの詳細を表示します。~~\ncoming soon", inline=False)
+        jp[0].add_field(name="aq?help `<コマンド>`", value="`<コマンド>`で指定したコマンドの詳細を表示します。", inline=False)
 
         #main
         jp[1].add_field(name="スレッド作成", value="<#742244652115034203>に質問したいことを書き込むと、自由に聞けるスレッドが作成されます。",inline=False)
@@ -77,6 +77,7 @@ class Contents(commands.Cog):
         self.help[1][1].add_field(name="about", value="ボットの情報を表示します")
 
         self.lang = discord.Embed(title="languages",color=discord.Color.blue())
+
 #reactions
         self.langs_list = [
             "\N{REGIONAL INDICATOR SYMBOL LETTER U}\N{REGIONAL INDICATOR SYMBOL LETTER S}",#英語
@@ -88,6 +89,16 @@ class Contents(commands.Cog):
             "\N{BLACK RIGHT-POINTING TRIANGLE}",  # 進む
             "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"#終了
         ]
+
+#panels
+        self.role_panels = [
+            (discord.Embed(title="role panel", description="",color=discord.Color.blue())),
+            (discord.Embed(title="ロールパネル", description="当てはまるものにリアクションを付けてください。\nロールを付与します。\nリアクションを外すとロールも外れます。",color=discord.Color.blue()))
+        ]
+
+        self.role_panels[0].add_field(name="all_members", value=f"`{len(set(self.bot.get_all_members()))}`")
+        self.role_panels[0].add_field(name="dev_lang", value="`discord.py`")
+        self.role_panels[0].add_field(name="Base machine", value="`TeraServer`")
 
 def setup(bot):
     bot.add_cog(Contents(bot))

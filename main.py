@@ -25,21 +25,19 @@ class MyBot(commands.Bot):
                 try:
                     self.load_extension(f"cogs.central.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
-                    self.load_extension(f"cogs.central.{cog[:-3]}")
-        '''
+                    self.reload_extension(f"cogs.central.{cog[:-3]}")
         for cog in os.listdir(path+"/main"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.main.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
-                    self.load_extension(f"cogs.main.{cog[:-3]}")
+                    self.reload_extension(f"cogs.main.{cog[:-3]}")
         for cog in os.listdir(path+"/common"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.common.{cog[:-3]}")
                 except commands.ExtensionAlreadyLoaded:
-                    self.load_extension(f"cogs.common.{cog[:-3]}")
-        '''
+                    self.reload_extension(f"cogs.common.{cog[:-3]}")
         print('-----')
         print('起動')
         print('-----')
