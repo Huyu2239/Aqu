@@ -6,18 +6,54 @@ self_id=742371009352433714
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+#言語ページめくり関数
+    async def commands_pages(self, ctx, msg, com):
+        langs_list = self.bot.get_cog('Contents').langs_list
+        for lang in langs_list:
+            await msg.add_reaction(lang)
+        def check(reaction, user):
+            if reaction.message.id != msg.id or ctx.author.bot or user != ctx.author:
+                return False
+            elif str(reaction.emoji) in langs_list:
+                return reaction, user
+            else:
+                return False
+        while not self.bot.is_closed():
+            try:
+                react, user= await self.bot.wait_for("reaction_add", check=check, timeout=300)
+            except asyncio.TimeoutError:
+                await ctx.message.clear_reactions()
+                break
+            emoji = str(react.emoji)
+            await msg.remove_reaction(emoji, user)
+            lang = 0
+            lang_txt = 'English'
+            if emoji in langs_list:
+                if emoji == "\N{REGIONAL INDICATOR SYMBOL LETTER U}\N{REGIONAL INDICATOR SYMBOL LETTER S}":
+                    lang = 0
+                    lang_txt = 'English'
+                if emoji == "\N{REGIONAL INDICATOR SYMBOL LETTER J}\N{REGIONAL INDICATOR SYMBOL LETTER P}":
+                    lang = 1
+                    lang_txt = 'Japanese'
+            embed = self.bot.get_cog('Contents').help[com][lang]
+            await msg.edit(content=lang_txt,embed=embed)
 #helpコマンド
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     @commands.bot_has_permissions(add_reactions=True, manage_messages=True)
     async def help(self, ctx, langs = None):
         msg = await ctx.send('Now loading...')
-        #/helpの時は言語確認してページ
+        if ctx.invoked_subcommand is None:
+            try:
+                langs = ctx.message.content.split()[1]
+            except IndexError:
+                langs = None
+    #/helpの時は言語確認してページ
         if langs == None:
-            embed = self.bot.get_cog('Contents').lang
-            await msg.edit(embed=embed)
+            embed = self.bot.get_cog('Contents').lang   
+            await msg.edit(content='',embed=embed)
             langs_list = self.bot.get_cog('Contents').langs_list
-            for lang in langs_list:
-                await msg.add_reaction(lang)
+            for LANG in langs_list:
+                await msg.add_reaction(LANG)
             def check1(reaction, user):
                 if reaction.message.id != msg.id or ctx.author.bot or user != ctx.author:
                     return False
@@ -31,6 +67,8 @@ class Help(commands.Cog):
                 await ctx.message.clear_reactions()
             emoji = str(react.emoji)
             await msg.remove_reaction(emoji, user)
+            lang = 0
+            lang_txt = ''
             if emoji == "\N{REGIONAL INDICATOR SYMBOL LETTER U}\N{REGIONAL INDICATOR SYMBOL LETTER S}":
                 lang = 0
                 lang_txt = 'English'
@@ -42,7 +80,7 @@ class Help(commands.Cog):
             user = await self.bot.fetch_user(self_id)
             for emoji in langs_list:
                 await msg.remove_reaction(emoji, user)
-        #/help langs　の時はその言語のページ
+    #/help langs　の時はその言語のページ
         else:
             lang = 0
             lang_txt = ''
@@ -57,15 +95,11 @@ class Help(commands.Cog):
             embed = self.bot.get_cog('Contents').help[0][lang][0]
             await msg.edit(content='[' + lang_txt + '　' +str(1) + '/4]',embed=embed)
             user = await self.bot.fetch_user(self_id)
+    #ページめくり
         page = 0
-        if lang == 0:
-            lang_txt='English'
-        if lang == 1:
-            lang_txt = 'Japanese'
         react_list = self.bot.get_cog('Contents').react_list
         for react in react_list:
             await msg.add_reaction(react)
-        #ページめくり
         def check2(reaction, user):
             if reaction.message.id != msg.id:
                 return False
@@ -100,51 +134,20 @@ class Help(commands.Cog):
             embed = self.bot.get_cog('Contents').help[0][lang][page]
             await msg.edit(content='[' + lang_txt + '　' +str(page+1) + '/4]',embed=embed)
 #その他
-    #言語ページめくり関数
-    async def commands_pages(self, ctx, msg, com):
-        langs_list = self.bot.get_cog('Contents').langs_list
-        for lang in langs_list:
-            await msg.add_reaction(lang)
-        def check(reaction, user):
-            if reaction.message.id != msg.id or ctx.author.bot or user != ctx.author:
-                return False
-            elif str(reaction.emoji) in langs_list:
-                return reaction, user
-            else:
-                return False
-        while not self.bot.is_closed():
-            try:
-                react, user= await self.bot.wait_for("reaction_add", check=check, timeout=300)
-            except asyncio.TimeoutError:
-                await ctx.message.clear_reactions()
-                break
-            emoji = str(react.emoji)
-            await msg.remove_reaction(emoji, user)
-            lang = 0
-            lang_txt = 'English'
-            if emoji in langs_list:
-                if emoji == "\N{REGIONAL INDICATOR SYMBOL LETTER U}\N{REGIONAL INDICATOR SYMBOL LETTER S}":
-                    lang = 0
-                    lang_txt = 'English'
-                if emoji == "\N{REGIONAL INDICATOR SYMBOL LETTER J}\N{REGIONAL INDICATOR SYMBOL LETTER P}":
-                    lang = 1
-                    lang_txt = 'Japanese'
-            embed = self.bot.get_cog('Contents').help[com][lang]
-            await msg.edit(content=lang_txt,embed=embed)
     @help.command()
     @commands.bot_has_permissions(add_reactions=True, manage_messages=True)
-    async def about(self, ctx, lang=None):
+    async def about(self, ctx, langs=None):
         #/help commands の時は言語選べるページ
-        if lang == None:
+        if langs == None:
             abouts = self.bot.get_cog('Contents').help[1][0]
             msg = await ctx.send(embed=abouts)
             await commands_pages(ctx, msg, 1)
         #/help commands langsの時はその言語のembed
         else:
-            if lang == 'en':
+            if langs == 'en':
                 abouts = self.bot.get_cog('Contents').help[1][0]
                 await ctx.send(embed=abouts)
-            if lang == 'jp':
+            if langs == 'jp':
                 abouts = self.bot.get_cog('Contents').help[1][1]
                 await ctx.send(embed=abouts)
 
