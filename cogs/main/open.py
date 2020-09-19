@@ -7,7 +7,10 @@ ot_channel=742244760462295051
 
 #スレッド作成関数
 async def maker(self, message, category_id):
-    category = message.guild.get_channel(category_id)
+    try:
+        category = message.guild.get_channel(category_id)
+    except AttributeError:
+        return
     nch=await category.create_text_channel(name=message.content) 
     embed = discord.Embed(description=message.author.mention+"created "+nch.mention,color=0x009193)
     await message.channel.send(embed=embed)

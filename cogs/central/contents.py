@@ -89,6 +89,11 @@ class Contents(commands.Cog):
         ]
 
         self.number_list = [
+            '\U00000031\U0000fe0f\U000020e3',
+            '\U00000032\U0000fe0f\U000020e3',
+            '\U00000033\U0000fe0f\U000020e3',
+            '\U00000034\U0000fe0f\U000020e3',
+            '\U00000035\U0000fe0f\U000020e3'
         ]
 #panels
         self.role_panels = [

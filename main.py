@@ -47,7 +47,6 @@ class MyBot(commands.Bot):
         orig_error = getattr(error1, "original", error1)
         error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
         error_msg = "```py\n" + error_msg + "\n```"
-        print(error_msg)
         await self.get_channel(logch_id).send(error_msg)
 
 if __name__ == '__main__':

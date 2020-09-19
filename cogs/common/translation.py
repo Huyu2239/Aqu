@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from googletrans import Translator
-
+#言語リスト
 LANG = {
     'af': 'afrikaans',#アフリカ
     'sq': 'albanian',#アルバニア
@@ -123,7 +123,7 @@ class Translation(commands.Cog):
     async def on_raw_reaction_add(self,payload):
         channel = self.bot.get_channel(payload.channel_id)
         reacted_message = await channel.fetch_message(payload.message_id)
-        if reacted_message.embeds:
+        if reacted_message.embeds or payload.member.bot:
             return
         try:
             lang_code = lang[str(payload.emoji)]

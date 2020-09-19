@@ -4,7 +4,7 @@ from discord.ext import commands
 ROLE_MSGID = 752401701562089532
 LANG_MSGID = 752401585761550563
 ro_list = {
-
+    '\U00000031\U0000fe0f\U000020e3': 111
 }
 
 class Role(commands.Cog):
@@ -33,25 +33,21 @@ class Role(commands.Cog):
             return
 #リアクションロール
     @commands.Cog.listener() 
-    async def on_raw_reaction_add(self, re): 
+    async def on_raw_reaction_add(self, re):
+        if re.member.bot:
+            return 
     #変換
         #channel = self.bot.get_channel(re.channel_id)
-        #guild = self.bot.get_guild(re.guild_id)  
-        #member = guild.get_member(re.user_id)  
+        guild = self.bot.get_guild(re.guild_id)  
         langs_list=self.bot.get_cog('Contents').langs_list
         number_list = self.bot.get_cog('Contents').number_list
     #設定
-        if re.message_id == ROLE_MSGID:# and re.emoji not in number_list:
-            if str(re.emoji) == '\U000020e3':
-                for reac in number_list:
-                    await re.message.add_reaction(reac)
-            #role = guild.get_role(ro_list[re.emoji])  
-            #await member.add_roles(role)
+        if re.message_id == ROLE_MSGID and re.emoji in number_list:
+            role = guild.get_role(ro_list[re.emoji])
+            await re.member.add_roles(role)
 
-        if re.message_id == LANG_MSGID and re.emoji not in langs_list:  
-            if re.emoji == '\U00000031':
-                for reac in number_list:
-                    await re.message.add_reaction(reac)
+        if re.message_id == LANG_MSGID and re.emoji in langs_list:  
+            pass
             
 
 
