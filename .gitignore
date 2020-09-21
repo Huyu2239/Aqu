@@ -1,6 +1,7 @@
 #追跡解除
 /setting.json
 
+/env/
 /cogs/central/__pycache__/
 /cogs/main/__pycache__/
 /cogs/common/__pycache__/
